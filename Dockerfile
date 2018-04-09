@@ -25,15 +25,19 @@ COPY --from=build /lib/libcrypto* /lib/
 COPY --from=build /usr/lib/libgcc_s* /usr/lib/
 COPY --from=build /usr/lib/libstdc++.* /usr/lib/
 
+COPY git-crypt-entrypoint.sh /git-crypt-entrypoint.sh
+
 RUN apk --no-cache add \
         git \
         gnupg && \
     rm -rf /var/cache/apk/* && \
-    adduser -D git
+    adduser -D git && \
+    chmod +x /git-crypt-entrypoint.sh
 
 USER git
 WORKDIR /home/git
 
 VOLUME /home/git
 
+ENTRYPOINT ["/git-crypt-entrypoint.sh"]
 CMD ["/usr/local/bin/git-crypt"]
