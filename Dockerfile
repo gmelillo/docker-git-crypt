@@ -1,4 +1,4 @@
-FROM alpine:3.7 as build
+FROM alpine:3.9.4 as build
 
 ENV VERSION 0.6.0
 
@@ -17,7 +17,7 @@ RUN curl -L https://github.com/AGWA/git-crypt/archive/$VERSION.tar.gz | tar zxv 
     make && \
     make install PREFIX=/usr/local
 
-FROM alpine:3.7
+FROM alpine:3.9.4
 MAINTAINER Gabriel Melillo <gabriel@melillo.me>
 
 COPY --from=build /usr/local/bin/git-crypt /usr/local/bin/
